@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { GalleryList } from './ImageGallery.styled';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 
@@ -14,6 +15,17 @@ const Gallery = ({ images }) => {
       ))}
     </GalleryList>
   );
+};
+
+Gallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.number.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Gallery;
