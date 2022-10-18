@@ -15,4 +15,11 @@ export const Overlay = styled.div`
 export const ModalBlock = styled.div`
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
+  overflow: hidden;
+  border-radius: 10px;
+`;
+
+export const Img = styled.img`
+  object-fit: contain;
+  object-position: center;
 `;

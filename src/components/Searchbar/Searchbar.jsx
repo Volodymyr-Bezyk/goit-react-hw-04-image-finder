@@ -3,14 +3,9 @@ import { Formik } from 'formik';
 import { Form, SearchBtn, BtnLabel, Input } from './Searchbar.styled';
 
 const Searchbar = ({ onSubmit }) => {
-  const formHandler = (value, actions) => {
-    console.log(value);
-    console.log(actions);
-  };
-
   return (
     <Header>
-      <Formik initialValues={{ searchQuery: '' }} onSubmit={formHandler}>
+      <Formik initialValues={{ searchQuery: '' }} onSubmit={onSubmit}>
         <Form>
           <SearchBtn type="submit">
             <BtnLabel>Search</BtnLabel>
