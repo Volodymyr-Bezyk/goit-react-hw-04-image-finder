@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from './Loader/Loader';
@@ -12,7 +11,6 @@ class App extends Component {
   state = {
     searchQuery: '',
     page: 1,
-    loader: false,
     images: [],
     error: null,
     status: 'idle',
@@ -46,7 +44,7 @@ class App extends Component {
   onLoadMoreClick = () => this.setState(({ page }) => ({ page: page + 1 }));
 
   render() {
-    const { images, loader, error, status } = this.state;
+    const { images, error, status } = this.state;
     const pictures = images.map(
       ({ id, tags, largeImageURL, webformatURL }) => ({
         id,
