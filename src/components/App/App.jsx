@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Searchbar from './Searchbar';
-import ImageGallery from './ImageGallery';
-import Loader from './Loader/Loader';
-import LoadMore from './Button/Button';
-import Notification from './Notice/Notice';
+import Searchbar from '../Searchbar';
+import ImageGallery from '../ImageGallery';
+import Loader from '../Loader/Loader';
+import LoadMore from '../Button/Button';
+import Notification from '../Notice/Notice';
 import { Wrapper } from './App.styled';
-import { fetchImages } from './apiService';
+import { fetchImages } from '../apiService';
 
 class App extends Component {
   state = {
