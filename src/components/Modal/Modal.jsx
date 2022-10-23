@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
-import { Component } from 'react';
+import { useEffect, useState, Component } from 'react';
 import { Overlay, ModalBlock, Img } from './Modal.styled';
 
 const modalRoot = document.getElementById('modal-root');
@@ -41,5 +41,22 @@ class Modal extends Component {
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
+
+// const Modal = ({ src, alt, onClose }) => {
+//   uconst[(srcModal, setSrcModal)] = useState('');
+
+//   useEffect(() => {
+//     return () => {};
+//   }, []);
+
+//   return createPortal(
+//     <Overlay onClick={this.modalCloseOnClick}>
+//       <ModalBlock>
+//         <Img src={src} alt={alt} />
+//       </ModalBlock>
+//     </Overlay>,
+//     modalRoot
+//   );
+// };
 
 export default Modal;

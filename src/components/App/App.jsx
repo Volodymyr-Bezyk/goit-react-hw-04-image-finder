@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import Loader from '../Loader/Loader';
@@ -7,69 +7,67 @@ import Notification from '../Notice/Notice';
 import { Wrapper } from './App.styled';
 import { fetchImages } from '../apiService';
 
-class App extends Component {
-  state = {
-    searchQuery: '',
-    page: 1,
-    images: [],
-    error: null,
-    status: 'idle',
-  };
-  async componentDidUpdate(prevProps, prevState) {
-    const { page, searchQuery } = this.state;
-    if (prevState.page !== page || prevState.searchQuery !== searchQuery) {
+import stateStatus from 'components/StateStatus';
+
+const App = () => {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(stateStatus.IDLE);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (query.length === 0) return;
+
       try {
-        this.setState({ status: 'pending' });
-        const pictures = await fetchImages(searchQuery, page);
-        if (pictures.length === 0) {
-          this.setState({ status: 'idle' });
+        setStatus(stateStatus.PENDING);
+        const result = await fetchImages(query, page);
+
+        if (result.length === 0) {
+          setStatus(stateStatus.IDLE);
+          return;
         }
-        if (pictures.length > 0) {
-          this.setState(({ images }) => ({
-            images: [...images, ...pictures],
-            status: 'resolved',
-          }));
-        }
-      } catch (error) {
-        this.setState({ error: 'Something went wrogn...', status: 'rejected' });
+
+        setImages(prevImages => [...prevImages, ...result]);
+        setStatus(stateStatus.RESOLVED);
+      } catch {
+        setStatus(stateStatus.REJECTED);
+        setError('Something went wrong... Please try again');
       }
     }
-  }
 
-  onSubmitHandler = (query, actions) => {
-    this.setState({ ...query, page: 1, images: [] });
+    fetchData();
+  }, [query, page]);
+
+  const onSubmitHandler = (query, actions) => {
+    setQuery(query.searchQuery);
+    setImages([]);
     actions.resetForm();
   };
+  const onLoadMoreClick = () => setPage(prevPage => prevPage + 1);
+  // const pictures = images.map(({ id, tags, largeImageURL, webformatURL }) => ({
+  //   id,
+  //   tags,
+  //   largeImageURL,
+  //   webformatURL,
+  // }));
 
-  onLoadMoreClick = () => this.setState(({ page }) => ({ page: page + 1 }));
-
-  render() {
-    const { images, error, status } = this.state;
-    const pictures = images.map(
-      ({ id, tags, largeImageURL, webformatURL }) => ({
-        id,
-        webformatURL,
-        largeImageURL,
-        tags,
-      })
-    );
-
-    return (
-      <Wrapper>
-        <Searchbar onSubmit={this.onSubmitHandler}></Searchbar>
-        {status === 'rejected' && <p>{error}</p>}
-        {status === 'idle' && <Notification></Notification>}
-        <ImageGallery images={pictures}></ImageGallery>
-        {status === 'pending' && <Loader></Loader>}
-        {status === 'resolved' && (
-          <LoadMore
-            onClick={this.onLoadMoreClick}
-            disabled={status === 'pending'}
-          ></LoadMore>
-        )}
-      </Wrapper>
-    );
-  }
-}
+  return (
+    <Wrapper>
+      <Searchbar onSubmit={onSubmitHandler}></Searchbar>
+      {status === stateStatus.REJECTED && <p>{error}</p>}
+      {status === stateStatus.IDLE && <Notification></Notification>}
+      <ImageGallery images={images}></ImageGallery>
+      {status === stateStatus.PENDING && <Loader></Loader>}
+      {status === stateStatus.RESOLVED && (
+        <LoadMore
+          onClick={onLoadMoreClick}
+          disabled={status === stateStatus.PENDING}
+        ></LoadMore>
+      )}
+    </Wrapper>
+  );
+};
 
 export default App;
