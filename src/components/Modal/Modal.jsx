@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
-import { useEffect, useState, Component } from 'react';
+import { Component } from 'react';
 import { Overlay, ModalBlock, Img } from './Modal.styled';
 
 const modalRoot = document.getElementById('modal-root');
