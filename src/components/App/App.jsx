@@ -6,6 +6,7 @@ import LoadMore from '../Button/Button';
 import Notification from '../Notice/Notice';
 import { Wrapper } from './App.styled';
 import { fetchImages } from '../apiService';
+import GallerySkeleton from 'components/gallerySkeleton';
 
 import stateStatus from 'components/StateStatus';
 
@@ -54,6 +55,7 @@ const App = () => {
       {status === stateStatus.IDLE && <Notification></Notification>}
       <ImageGallery images={images}></ImageGallery>
       {status === stateStatus.PENDING && <Loader></Loader>}
+      {status === stateStatus.PENDING && <GallerySkeleton></GallerySkeleton>}
       {status === stateStatus.RESOLVED && (
         <LoadMore
           onClick={onLoadMoreClick}

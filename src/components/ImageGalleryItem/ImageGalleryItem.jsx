@@ -17,7 +17,6 @@ const ImageGalleryItem = ({ tags, largeImageURL, webformatURL }) => {
         <Modal
           src={largeImageURL}
           alt={tags}
-          modalSrc={modalSrc}
           onClose={() => setModalSrc('')}
         ></Modal>
       )}
