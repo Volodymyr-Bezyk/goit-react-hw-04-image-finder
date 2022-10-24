@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+
 import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
 import Loader from '../Loader/Loader';
@@ -7,7 +9,6 @@ import Notification from '../Notice/Notice';
 import { Wrapper } from './App.styled';
 import { fetchImages } from '../apiService';
 import GallerySkeleton from 'components/gallerySkeleton';
-
 import stateStatus from 'components/StateStatus';
 
 const App = () => {
@@ -27,10 +28,16 @@ const App = () => {
 
         if (result.length === 0) {
           setStatus(stateStatus.IDLE);
+          toast.error(
+            `It looks like we couldn't find anything for your query ${query}`
+          );
           return;
         }
 
         setImages(prevImages => [...prevImages, ...result]);
+        if (page === 1) {
+          toast.success(`Awesome! We found images`);
+        }
         setStatus(stateStatus.RESOLVED);
       } catch {
         setStatus(stateStatus.REJECTED);
@@ -44,12 +51,14 @@ const App = () => {
   const onSubmitHandler = (query, actions) => {
     setQuery(query.searchQuery);
     setImages([]);
+
     actions.resetForm();
   };
   const onLoadMoreClick = () => setPage(prevPage => prevPage + 1);
 
   return (
     <Wrapper>
+      <Toaster position="top-right" reverseOrder={false} />
       <Searchbar onSubmit={onSubmitHandler}></Searchbar>
       {status === stateStatus.REJECTED && <p>{error}</p>}
       {status === stateStatus.IDLE && <Notification></Notification>}
