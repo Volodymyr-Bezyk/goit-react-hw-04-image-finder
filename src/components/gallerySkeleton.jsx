@@ -5,8 +5,8 @@ const GallerySkeleton = props => (
   <ContentLoader
     speed={2}
     width={1366}
-    height={768}
-    viewBox="0 0 1366 768"
+    height={400}
+    viewBox="0 0 1366 400"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}
