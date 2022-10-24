@@ -46,12 +46,6 @@ const App = () => {
     actions.resetForm();
   };
   const onLoadMoreClick = () => setPage(prevPage => prevPage + 1);
-  // const pictures = images.map(({ id, tags, largeImageURL, webformatURL }) => ({
-  //   id,
-  //   tags,
-  //   largeImageURL,
-  //   webformatURL,
-  // }));
 
   return (
     <Wrapper>

@@ -6,7 +6,7 @@ const Gallery = ({ images }) => (
   <GalleryList>
     {images.map(({ id, tags, largeImageURL, webformatURL }) => (
       <ImageGalleryItem
-        key={id * Date.now()}
+        key={webformatURL + id}
         tags={tags}
         largeImageURL={largeImageURL}
         webformatURL={webformatURL}
@@ -18,7 +18,7 @@ const Gallery = ({ images }) => (
 Gallery.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.number.isRequired,
       tags: PropTypes.string,
       largeImageURL: PropTypes.string,
       webformatURL: PropTypes.string,

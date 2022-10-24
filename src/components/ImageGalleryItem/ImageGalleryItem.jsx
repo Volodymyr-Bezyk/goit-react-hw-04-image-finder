@@ -1,41 +1,28 @@
 import { GalleryItem, GalleryImg } from './ImageGalleryItem.styled';
 import Modal from 'components/Modal';
-import { Component } from 'react';
+import { useState } from 'react';
 
-class ImageGalleryItem extends Component {
-  state = {
-    modal: '',
-  };
+const ImageGalleryItem = ({ tags, largeImageURL, webformatURL }) => {
+  const [modalSrc, setModalSrc] = useState('');
 
-  onImageClickHandler = url => () => {
-    this.setState({ modal: url });
-  };
+  return (
+    <GalleryItem>
+      <GalleryImg
+        src={webformatURL}
+        alt={tags}
+        onClick={() => setModalSrc(largeImageURL)}
+      />
 
-  closeModal = () => {
-    this.setState({ modal: '' });
-  };
-
-  render() {
-    const { modal } = this.state;
-    const { tags, largeImageURL, webformatURL } = this.props;
-
-    return (
-      <GalleryItem>
-        <GalleryImg
-          src={webformatURL}
+      {modalSrc && (
+        <Modal
+          src={largeImageURL}
           alt={tags}
-          onClick={this.onImageClickHandler(largeImageURL)}
-        />
-        {modal && (
-          <Modal
-            src={largeImageURL}
-            alt={tags}
-            onClose={this.closeModal}
-          ></Modal>
-        )}
-      </GalleryItem>
-    );
-  }
-}
+          modalSrc={modalSrc}
+          onClose={() => setModalSrc('')}
+        ></Modal>
+      )}
+    </GalleryItem>
+  );
+};
 
 export default ImageGalleryItem;
