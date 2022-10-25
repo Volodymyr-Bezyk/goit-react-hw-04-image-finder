@@ -19,12 +19,14 @@ const App = () => {
   const [status, setStatus] = useState(stateStatus.IDLE);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchData() {
-      if (query.length === 0) return;
+      if (query.trim().length === 0) return;
 
       try {
         setStatus(stateStatus.PENDING);
-        const result = await fetchImages(query, page);
+        const result = await fetchImages(query, page, controller);
 
         if (result.length === 0) {
           setStatus(stateStatus.IDLE);
@@ -46,9 +48,14 @@ const App = () => {
     }
 
     fetchData();
-  }, [query, page]);
+
+    return function cleaner() {
+      controller.abort();
+    };
+  }, [page, query]);
 
   const onSubmitHandler = (query, actions) => {
+    if (query.searchQuery.trim().length === 0) return;
     setQuery(query.searchQuery);
     setImages([]);
 
