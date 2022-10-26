@@ -48,7 +48,6 @@ const App = () => {
     }
 
     fetchData();
-
     return function cleaner() {
       controller.abort();
     };
@@ -58,6 +57,7 @@ const App = () => {
     if (query.searchQuery.trim().length === 0) return;
     setQuery(query.searchQuery);
     setImages([]);
+    setPage(1);
 
     actions.resetForm();
   };

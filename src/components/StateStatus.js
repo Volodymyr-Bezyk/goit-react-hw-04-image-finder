@@ -5,4 +5,4 @@ const stateStatus = {
     PENDING: 'pending'
 }
 
-export default stateStatus
+export default stateStatus;
